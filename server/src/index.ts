@@ -1,9 +1,15 @@
-const connection = require("../src/connection/connection")
-const express = require("express");
+import express  from "express";
+import cors from 'cors';
 
-const port = 4500;
+import router from "./routes/user";
+
+const PORT = 5000;
 const app = express();
+app.use(cors())
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+
+app.use("/",router)
+
+app.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`);
 });
