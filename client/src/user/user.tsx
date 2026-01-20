@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 
 type User = {
   id: number;
@@ -8,6 +9,8 @@ type User = {
 }
 
 function User() {
+
+  const id  = useParams()
     const [data,setData] = useState<User[]>([])
     const fetchuser = async()=>{
       try {
@@ -30,10 +33,17 @@ function User() {
         <ul key={user.id}>
           <li>{user.id}</li>
           <li>{user.name}</li>
-          <li>
+          <li >
             {user.img && (
-              <img src={`/upload/${user.img}`} alt={user.name} />
+              <img src={`http://localhost:5000/upload/${user.img}`} alt={user.name} width={"80px"}/>
             )}
+          </li>
+          <li>
+            <NavLink to={`EditUser/${id}`}>
+            <button>
+              Edit User
+            </button>
+            </NavLink>
           </li>
         </ul>
       ))}
