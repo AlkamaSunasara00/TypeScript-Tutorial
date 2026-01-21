@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type User = {
   id: number;
@@ -7,18 +8,20 @@ type User = {
   img:string|null;
 }
 
-
 function AddUser() {
-  const [data, setData] = useState<User[]>([]);
+  // const [data, setData] = useState<User[]>([]);
   const [name, setName] = useState<string>("");
   const [img, setImg] = useState<File|undefined>(undefined);
 
+const navigate = useNavigate();
+
+
   const getData = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/getuser");
-      setData(response.data);
+     await axios.get<User[]>("http://localhost:5000/getuser");
+      // setData(response.data);
     } catch (error) {
-      console.error(error);
+      console.error(error); 
     }
   };
 
@@ -39,6 +42,7 @@ function AddUser() {
       alert("DATA ADDED ✅");
       setName("");
       setImg(undefined);
+      navigate("/")
       getData();
     } catch (error) {
       console.error(error);

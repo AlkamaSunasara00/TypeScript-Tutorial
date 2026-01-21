@@ -23,11 +23,28 @@ function User() {
       }
     }
 
+    const handleDelete = async(userId:number)=>{
+      try {
+        await axios.delete<User[]>(`http://localhost:5000/deleteuser/${userId}`)
+        console.log("user is deleted successfully")
+        fetchuser()
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     useEffect(()=>{
       fetchuser()
     },[])
 
   return (
+<>
+    <div>
+      <h1>hello</h1>
+      <NavLink to={"/AddUser"}>
+      <button>Add User</button>
+      </NavLink>
+    </div>
      <div>
       {data.map((user) => (
         <ul key={user.id}>
@@ -45,9 +62,15 @@ function User() {
             </button>
             </NavLink>
           </li>
+          <li>
+            <button onClick={()=> handleDelete(user.id)}>
+              Delete User
+            </button>
+          </li>
         </ul>
       ))}
     </div>
+    </>
   );
 }
 

@@ -1,11 +1,12 @@
 import express  from "express";
 const router = express.Router();
-import {adduser, edituser, getuser, getuserbyid} from '../controller/user'
+import {adduser, deleteuser, edituser, getuser, getuserbyid} from '../controller/user'
 import upload from "../middleware/filehandler";
 
 router.get("/getuser",getuser)
 router.get("/getuserbyid/:id",getuserbyid)
 router.post("/adduser",upload.single("img"),adduser)
 router.put("/edituser/:id",upload.single("img"),edituser)
+router.delete("/deleteuser/:id",deleteuser)
 
 export default router

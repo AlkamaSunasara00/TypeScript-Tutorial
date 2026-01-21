@@ -40,9 +40,19 @@ const edituser =(req: Request, res: Response) =>{
     })
 }
 
+
+const deleteuser = (req: Request, res: Response) =>{
+    const {id}= req.params;
+    const q = "DELETE FROM user  WHERE id=?";
+        connection.query(q,[id], (err: QueryError | null, data: any[]) => {
+        if (err) return res.status(500).json({ error: "database error", details: err })
+        return res.json(data)
+    })
+}
 export {
     getuser,
     adduser,
     getuserbyid,
-    edituser
+    edituser,
+    deleteuser
 };
