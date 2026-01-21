@@ -1,37 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import '../form.css'
 
-type User = {
-  id: number;
-  name : string;
-  img:string|null;
-}
 
 function AddUser() {
-  // const [data, setData] = useState<User[]>([]);
-  const [name, setName] = useState<string>("");
-  const [img, setImg] = useState<File|undefined>(undefined);
+  const [name, setName] = useState("");
+  const [img, setImg] = useState<File | null>(null);
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
-
-
-  const getData = async () => {
-    try {
-     await axios.get<User[]>("http://localhost:5000/getuser");
-      // setData(response.data);
-    } catch (error) {
-      console.error(error); 
-    }
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
-
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if(!img) return;
+    if (!img) return;
+
     try {
       const formData = new FormData();
       formData.append("name", name);
@@ -40,10 +21,7 @@ const navigate = useNavigate();
       await axios.post("http://localhost:5000/adduser", formData);
 
       alert("DATA ADDED ✅");
-      setName("");
-      setImg(undefined);
-      navigate("/")
-      getData();
+      navigate("/");
     } catch (error) {
       console.error(error);
       alert("ERROR TO ADD DATA ❌");
@@ -51,37 +29,39 @@ const navigate = useNavigate();
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
+    <div className="form-wrapper">
+      <div className="form-card">
+        <h2>Add User</h2>
 
-        <div>
-          <label htmlFor="img">Image</label>
-          <input
-            id="img"
-            type="file"
-            accept="image/*"
-            required
-            onChange={(
-              e: React.ChangeEvent<HTMLInputElement>
-            ) => {
-              const file = e.target.files?.[0];
-              if (!file) return;
-              setImg(file);
-            }}
-          />
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
 
-        <button type="submit">ADD DATA</button>
-      </form>
+          <div className="form-group">
+            <label>Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              required
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) setImg(file);
+              }}
+            />
+          </div>
+
+          <button className="form-btn" type="submit">
+            Add User
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
