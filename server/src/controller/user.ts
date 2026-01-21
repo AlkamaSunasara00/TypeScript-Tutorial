@@ -12,7 +12,7 @@ const getuser = (req: Request, res: Response) => {
 }
 const getuserbyid = (req: Request, res: Response) => {
     const {id}= req.params;
-    const q = "SELECT * FROM user WHERE = ?"
+    const q = "SELECT * FROM user WHERE id = ?"
     connection.query(q, [id],(err: QueryError | null, data: any[]) => {
         if (err) return res.status(500).json({ error: "database error", details: err })
         return res.json(data)

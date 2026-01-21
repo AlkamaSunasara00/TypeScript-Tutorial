@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 type User = {
   id: number;
   name: string;
-  img: string; // existing image filename
+  img: string;
 };
 
 function EditUser() {
@@ -19,12 +19,12 @@ function EditUser() {
   // 🔹 Fetch existing user
   const fetchData = async () => {
     try {
-      const response = await axios.get<User>(
+      const response = await axios.get<User[]>(
         `http://localhost:5000/getuserbyid/${id}`
       );
-
-      setName(response.data.name);
-      setExistingImg(response.data.img);
+      const user = response.data[0]
+      setName(user.name);
+      setExistingImg(user.img);
     } catch (error) {
       console.error("Failed to fetch user", error);
     }
