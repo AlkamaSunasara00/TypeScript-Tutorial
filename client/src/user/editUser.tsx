@@ -6,12 +6,13 @@ import '../form.css'
 type User = {
   id: number;
   name: string;
+  slug: string;
   img: string;
 };
 
 function EditUser() {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { slug } = useParams();
 
   const [name, setName] = useState("");
   const [existingImg, setExistingImg] = useState("");
@@ -20,7 +21,7 @@ function EditUser() {
   const fetchData = async () => {
     try {
       const response = await axios.get<User[]>(
-        `http://localhost:5000/getuserbyid/${id}`
+        `http://localhost:5000/getuserbyid/${slug}`
       );
       const user = response.data[0];
       setName(user.name);
@@ -32,7 +33,7 @@ function EditUser() {
 
   useEffect(() => {
     fetchData();
-  }, [id]);
+  }, [slug]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -43,7 +44,7 @@ function EditUser() {
       if (newImg) formData.append("img", newImg);
 
       await axios.put(
-        `http://localhost:5000/edituser/${id}`,
+        `http://localhost:5000/edituser/${slug}`,
         formData
       );
 

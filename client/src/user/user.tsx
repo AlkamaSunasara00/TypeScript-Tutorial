@@ -5,12 +5,11 @@ import { NavLink, useParams } from "react-router-dom";
 type User = {
   id: number;
   name: string;
+  slug: string;
   img: string | null;
 }
 
 function User() {
-
-  // const id = useParams()
   const [data, setData] = useState<User[]>([])
   const fetchuser = async () => {
     try {
@@ -57,7 +56,7 @@ function User() {
               <div className="user-name">{user.name}</div>
 
               <div className="user-actions">
-                <NavLink to={`EditUser/${user.id}`}>
+                <NavLink to={`EditUser/${user.slug}`}>
                   <button className="edit-btn">Edit</button>
                 </NavLink>
                 <button

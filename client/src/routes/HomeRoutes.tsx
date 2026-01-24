@@ -10,7 +10,7 @@ function HomeRoutes() {
       <Routes>
         <Route path="/" element={<User/>}/>
         <Route path="/AddUser" element={<AddUser/>}/>
-        <Route path="/EditUser/:id" element={<EditUser/>}/>
+        <Route path="/EditUser/:slug" element={<EditUser/>}/>
       </Routes>
     </div>
   )
